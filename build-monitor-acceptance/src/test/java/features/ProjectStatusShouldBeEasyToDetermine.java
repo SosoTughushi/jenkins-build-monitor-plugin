@@ -24,7 +24,7 @@ import static net.serenitybdd.screenplay.GivenWhenThen.*;
 
 @RunWith(SerenityRunner.class)
 public class ProjectStatusShouldBeEasyToDetermine {
-
+    private static final String myApp = "My App";
     Actor anna = Actor.named("Anna");
 
     @Managed public WebDriver herBrowser;
@@ -41,12 +41,12 @@ public class ProjectStatusShouldBeEasyToDetermine {
 
         givenThat(anna).wasAbleTo(
                 Navigate.to(jenkins.url()),
-                HaveASuccessfulProjectCreated.called("My App")
+                HaveASuccessfulProjectCreated.called(myApp)
         );
 
         when(anna).attemptsTo(HaveABuildMonitorViewCreated.showingAllTheProjects());
 
-        then(anna).should(seeThat(ProjectWidget.of("My App").information(),
+        then(anna).should(seeThat(ProjectWidget.of(myApp).information(),
                 displaysProjectStatusAs(Successful)
         ));
     }
@@ -56,12 +56,12 @@ public class ProjectStatusShouldBeEasyToDetermine {
 
         givenThat(anna).wasAbleTo(
                 Navigate.to(jenkins.url()),
-                HaveAFailingProjectCreated.called("My App")
+                HaveAFailingProjectCreated.called(myApp)
         );
 
         when(anna).attemptsTo(HaveABuildMonitorViewCreated.showingAllTheProjects());
 
-        then(anna).should(seeThat(ProjectWidget.of("My App").information(),
+        then(anna).should(seeThat(ProjectWidget.of(myApp).information(),
                 displaysProjectStatusAs(Failing)
         ));
     }
