@@ -102,7 +102,7 @@ public class ConsoleTransferListener
         TransferResource resource = event.getResource();
         long contentLength = event.getTransferredBytes();
         if (contentLength >= 0) {
-            String type = (event.getRequestType() == TransferEvent.RequestType.PUT ? "Uploaded" : "Downloaded");
+            String type = event.getRequestType() == TransferEvent.RequestType.PUT ? "Uploaded" : "Downloaded";
             String len = contentLength >= 1024 ? toKB(contentLength) + " KB" : contentLength + " B";
 
             String throughput = "";
