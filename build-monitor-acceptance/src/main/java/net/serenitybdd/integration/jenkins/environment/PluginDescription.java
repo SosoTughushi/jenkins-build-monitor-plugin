@@ -8,8 +8,10 @@ import java.util.jar.JarFile;
 
 public class PluginDescription {
     public static PluginDescription of(@NotNull Path pluginAtPath) {
+        JarFile jarFile = null;
         try {
-            Attributes attrs = new JarFile(pluginAtPath.toFile()).getManifest().getMainAttributes();
+            jarFile = new JarFile(pluginAtPath.toFile());
+            Attributes attrs = jarFile.getManifest().getMainAttributes();
 
             return new PluginDescription(
                     pluginAtPath,
@@ -20,6 +22,16 @@ public class PluginDescription {
         }
         catch(IOException e) {
             throw new RuntimeException(String.format("Couldn't read the manifest file of '%s'.", pluginAtPath.toAbsolutePath()), e);
+        }
+        finally {
+            if(jarFile!=null){
+                try {
+                    jarFile.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
         }
     }
 
