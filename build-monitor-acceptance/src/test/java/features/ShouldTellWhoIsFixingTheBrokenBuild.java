@@ -29,7 +29,7 @@ import static org.hamcrest.core.Is.is;
 @RunWith(SerenityRunner.class)
 public class ShouldTellWhoIsFixingTheBrokenBuild {
 
-    private static final String responsibilityDeveloped = "Responsibly Developed";
+    private static final String RESPONSIBILITY_DEVELOPED = "Responsibly Developed";
 
     JenkinsUser ben = JenkinsUser.named("Ben");
 
@@ -50,16 +50,16 @@ public class ShouldTellWhoIsFixingTheBrokenBuild {
         givenThat(ben).wasAbleTo(
                 Navigate.to(jenkins.url()),
                 LogIn.as(ben),
-                HaveAFailingClaimableProjectCreated.called(responsibilityDeveloped)
+                HaveAFailingClaimableProjectCreated.called(RESPONSIBILITY_DEVELOPED)
         );
 
         when(ben).attemptsTo(
                 HaveABuildMonitorViewCreated.showingAllTheProjects(),
-                Claim.lastBrokenBuildOf(responsibilityDeveloped).saying("My bad, fixing now"),
+                Claim.lastBrokenBuildOf(RESPONSIBILITY_DEVELOPED).saying("My bad, fixing now"),
                 GoBack.to("Build Monitor")
         );
 
-        then(ben).should(seeThat(ProjectWidget.of(responsibilityDeveloped).information(), displaysProjectStatusAs(Claimed)));
-        then(ben).should(seeThat(ProjectWidget.of(responsibilityDeveloped).details(),     is("Claimed by Ben: My bad, fixing now")));
+        then(ben).should(seeThat(ProjectWidget.of(RESPONSIBILITY_DEVELOPED).information(), displaysProjectStatusAs(Claimed)));
+        then(ben).should(seeThat(ProjectWidget.of(RESPONSIBILITY_DEVELOPED).details(),     is("Claimed by Ben: My bad, fixing now")));
     }
 }

@@ -28,9 +28,9 @@ public class JobViewTest {
 
     private static final String theName = "some-TLAs-followed-by-a-project-name";
     private static final String displayName = "Pretty name that has some actual meaning";
-    private static final String successfull = "successful";
-    private static final String failing = "failing";
-    private static final String running = "running";
+    private static final String SUCCESSFUL = "successful";
+    private static final String FAILING = "failing";
+    private static final String RUNNING = "running";
 
     private RelativeLocation relativeLocation = mock(RelativeLocation.class); // TODO recipe builder
     private JobView view;
@@ -215,7 +215,7 @@ public class JobViewTest {
         view = a(jobView().of(
                 a(job().whereTheLast(build().finishedWith(SUCCESS)))));
 
-        assertThat(view.status(), containsString(successfull));
+        assertThat(view.status(), containsString(SUCCESSFUL));
     }
 
     @Test
@@ -224,7 +224,7 @@ public class JobViewTest {
             view = a(jobView().of(
                     a(job().whereTheLast(build().finishedWith(result)))));
 
-            assertThat(view.status(), containsString(failing));
+            assertThat(view.status(), containsString(FAILING));
         }
     }
 
@@ -251,7 +251,7 @@ public class JobViewTest {
                 a(jobView().of(a(job().whereTheLast(build().isStillUpdatingTheLog())))));
 
         for (JobView view : views) {
-            assertThat(view.status(), containsString(running));
+            assertThat(view.status(), containsString(RUNNING));
         }
     }
 
@@ -267,7 +267,7 @@ public class JobViewTest {
         view = a(jobView().of(a(job().thatIsNotBuildable().whereTheLast(build().finishedWith(FAILURE)))));
 
         assertThat(view.status(), containsString("disabled"));
-        assertThat(view.status(), containsString(failing));
+        assertThat(view.status(), containsString(FAILING));
     }
 
     @Test
@@ -282,8 +282,8 @@ public class JobViewTest {
         // but then it would require Java 7
 
         for (JobView view : views) {
-            assertThat(view.status(), containsString(successfull));
-            assertThat(view.status(), containsString(running));
+            assertThat(view.status(), containsString(SUCCESSFUL));
+            assertThat(view.status(), containsString(RUNNING));
         }
     }
 
@@ -302,8 +302,8 @@ public class JobViewTest {
         );
 
         for (JobView view : views) {
-            assertThat(view.status(), containsString(failing));
-            assertThat(view.status(), containsString(running));
+            assertThat(view.status(), containsString(FAILING));
+            assertThat(view.status(), containsString(RUNNING));
         }
     }
 
@@ -318,7 +318,7 @@ public class JobViewTest {
                         andThePrevious(build().isStillBuilding()).
                         andThePrevious(build().finishedWith(SUCCESS)))));
 
-        assertThat(view.status(), containsString(successfull));
+        assertThat(view.status(), containsString(SUCCESSFUL));
     }
 
     @Test

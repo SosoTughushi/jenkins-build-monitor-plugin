@@ -26,7 +26,7 @@ import static org.hamcrest.Matchers.is;
 
 @RunWith(SerenityRunner.class)
 public class ShouldDescribeEachProject {
-    private static final String exampleGithubProject = "Example Github Project";
+    private static final String EXAMPLE_GITHUB_PROJECT = "Example Github Project";
 
     Actor dave = Actor.named("Dave");
 
@@ -47,16 +47,16 @@ public class ShouldDescribeEachProject {
     public void displaying_a_custom_build_description() throws Exception {
         givenThat(dave).wasAbleTo(
                 Navigate.to(jenkins.url()),
-                HaveAProjectCreated.called(exampleGithubProject).andConfiguredTo(
+                HaveAProjectCreated.called(EXAMPLE_GITHUB_PROJECT).andConfiguredTo(
                         ExecuteAShellScript.that(outputsGithubProjectLog()),
                         SetBuildDescription.to("Revision: \\1").basedOnLogLineMatching("Checking out Revision ([^\\s]{6})")
                 ),
-                ScheduleABuild.of(exampleGithubProject)
+                ScheduleABuild.of(EXAMPLE_GITHUB_PROJECT)
         );
 
         when(dave).attemptsTo(HaveABuildMonitorViewCreated.showingAllTheProjects());
 
-        then(dave).should(seeThat(ProjectWidget.of(exampleGithubProject).details(), is("Revision: 67f4b3")));
+        then(dave).should(seeThat(ProjectWidget.of(EXAMPLE_GITHUB_PROJECT).details(), is("Revision: 67f4b3")));
     }
 
     private ShellScript outputsGithubProjectLog() {
